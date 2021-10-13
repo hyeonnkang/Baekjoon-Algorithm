@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <string>
 #include <stack>
 using namespace std;
 
@@ -11,9 +11,8 @@ int main(){
     cin >> n;
     
     stack<int> s;
-    vector<char> p; // + or - 를 출력을 결정하는 배열
     s.push(1);
-    p.push_back('+');
+    string p = "+";
     int max = 1;    // 현재 스택에 들어갔던 가장 큰 수를 저장하는 변수
 
     bool canMake = true;
@@ -28,24 +27,24 @@ int main(){
             int i = max + 1;
             for(; i <= k; i++){    // i+1~k 까지 스택에 push
                 s.push(i);
-                p.push_back('+');
+                p += '+';
             }
             max = k;
             s.pop();     // 현재 top에 있는 k를 pop 한다.
-            p.push_back('-');
+            p += '-';
         }
         else if(s.top() < k && k > max){    // top에 있는 숫자가 k 보다 작다면
             int i = max + 1;
             for(; i <= k; i++){    // i+1~k 까지 스택에 push
                 s.push(i);
-                p.push_back('+');
+                p += '+';
             }
             max = k;
             s.pop();     // 현재 top에 있는 k를 pop 한다.
-            p.push_back('-');
+            p += '-';
         }else if(s.top() == k){ // top이 바로 k 라면
             s.pop();
-            p.push_back('-');
+            p += '-';
         }else{
             canMake = false;
         }
@@ -53,8 +52,7 @@ int main(){
 
     if(canMake){
         for(int i = 0; i < p.size(); i++){
-            if(p[i]=='+') printplus();
-            else printminus();
+            cout << p[i] << "\n";
         }
     }else{
         cout << "NO" << endl;
