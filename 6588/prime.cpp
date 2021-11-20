@@ -3,25 +3,32 @@
 using namespace std;
 
 // 초기값: 0 / 소수: 1 / 합성수: -1
-int prime[1000001] = { 0 };
+int prime[1000001] = { 0, 0, 1, 0};
 
 // num 이 소수이면 true return
 bool is_prime(int num) {
-	bool result = true;
-	for (int i = 3; i <= sqrt(num); i++) {
-		if (num % i == 0) {
-			result = false;
-			break;
-		}
-	}
-	if (result) prime[num] = 1;
-	else prime[num] = -1;
-
+	bool result = prime[num] == 1 ? true : false;
 	return result;
 }
 
 int main() {
 
+	// 소수인지 아닌지 2부터 1000000 까지 저장하기
+	for(int i = 3; i <= 1000000; i++){
+		for(int j = 2; j <= sqrt(i); j++){
+			if (i % j == 0) {	// 소수가 아닐 경우
+				prime[i] = -1;
+				break;
+			}else continue;
+		}
+
+		if (prime[i] == 0) prime[i] = 1;	// 소수일 경우
+	}
+
+	cin.tie(NULL); 
+	ios_base::sync_with_stdio(0);
+
+	// 사용자로부터 숫자 입력받기
 	int n;
 	while (true) {
 		cin >> n;
@@ -37,15 +44,7 @@ int main() {
 		while (a <= b) {
 
 			// a와 b가 모두 소수일 경우 반복문 탈출
-			bool a_prime, b_prime;
-			
-			if (prime[a] == 0) a_prime = is_prime(a);
-			else a_prime = (bool)prime[a];
-
-			if (prime[b] == 0) b_prime = is_prime(b);
-			else b_prime = (bool)prime[b];
-
-			if (a_prime && b_prime) {
+			if (is_prime(a) && is_prime(b)) {
 				is_gold = true;
 				break;
 			}
