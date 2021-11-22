@@ -1,33 +1,44 @@
 #include <iostream>
 using namespace std;
 
-// 각 idx에 해당하는 팩토리얼 연산 결과 ex) fac[10] = 10!
-int fac[2000000001] = {1, 1, 0};    
+int count_2(long long num){ // 2의 개수 구하기
+    int result = 0;
 
-void factorial(){    // 배열 fac에 팩토리얼 연산을 해서 결과를 저장
-    for(int i = 2; i < 2000000001; i++){
-        fac[i] = fac[i-1] * i;
+    for(long long i = 2; i <= num; i *= 2){
+        result += num / i;
     }
+
+    return result;
 }
 
-int main(){
-    factorial();
+int count_5(long long num){ // 5의 개수 구하기
+    int result = 0;
 
-    int n, m;
-    cin >> n >> m;
-    
-    // 조합 구하기
-    int c = fac[n] / (fac[m] * fac[n-m]);
-
-    // c에 들어있는 5의 개수 카운트
-    int tmp = c;
-    int cnt = 0;    // c안에 들어있는 5의 개수
-    while(c != 0){
-        tmp /= 5;
-        cnt++;
+    for(long long i = 5; i <= num; i *= 5){
+        result += num / i;
     }
 
-    cout << cnt;
+    return result;
+}
+
+int main() {
+
+    long long n, m;
+    cin >> n >> m;
+
+
+    int x = count_5(n);
+    int y = count_5(m);
+    int z = count_5(n-m);
+    int cnt_5 = x - (y + z);        // nCm의 5의 개수
+
+    x = count_2(n);
+    y = count_2(m);
+    z = count_2(n-m);
+    int cnt_2 = x - (y + z);        // nCm의 2의 개수
+
+    int result = cnt_5 < cnt_2 ? cnt_5 : cnt_2;
+    cout << result << endl;
 
     return 0;
 }
