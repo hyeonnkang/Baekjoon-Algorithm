@@ -2,27 +2,36 @@
 #include <string>
 using namespace std;
 
-int main(){
-    string b;
-    cin >> b;
+int main() {
+    string binary;
+    cin >> binary;
+    
+    int len = binary.length();
 
-    while((b.size()-1) % 3 != 0){
-        b = "0" + b;
+    // 8진수로 바꾸기 쉽게 입력한 2진수의 길이를 3의 배수로 맞춘다.
+    switch (len % 3) {
+    case 0: break;
+    case 1: 
+        binary = "00" + binary;
+        break;
+    case 2:
+        binary = "0" + binary;
+        break;
     }
+    len = binary.length();
 
-    string result = "";
-    for(int i = 0; i < b.size(); i += 3){
+    // 2진수의 세자리 수를 8진수 1자리수로 변환
+    string oct = "";
+    for (int i = 0; i < len; i += 3) {
         int x = 0;
-        int y = 1;
-        for(int j= i; j < i+3; j++){
-            x += (b[j]-'0') * y;
-            y *= 2;
+        int d = 1;
+        for (int j = i+2; j >= i; j--) {
+            x += (binary[j] - '0') * d;
+            d *= 2;
         }
-        result += to_string(x);
+        oct += to_string(x);
     }
 
-    for(int i = 0; i < result.size(); i++){
-        cout << result[i];
-    }
-    cout << endl;
+    cout << oct << endl;
+    
 }
